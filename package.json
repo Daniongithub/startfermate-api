@@ -1,0 +1,19 @@
+{
+  "name": "start-fermate-api",
+  "version": "2.1.0",
+  "main": "script.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "IlDani - Curry141",
+  "license": "MIT",
+  "description": "API for a frontend project by the ER-TPL team",
+  "dependencies": {
+    "axios": "^1.10.0",
+    "cheerio": "^1.1.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "node-fetch": "^3.3.2"
+  }
+}
