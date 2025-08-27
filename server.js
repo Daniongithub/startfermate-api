@@ -68,7 +68,7 @@ app.get('/fermata', async (req, res) => {
 
             //Linee soppresse a metà
 
-            const linee = ["Linea 1", "Linea 1B", "Linea 2", "Linea 3", "Linea 4", "Linea 4B", "Linea 4D", "Linea 5", "Linea 8", "Linea 18", "Linea 70", "Linea 80"];
+            const linee = ["Linea 1", "Linea 1B", "Linea 3", "Linea 4", "Linea 4B", "Linea 4D", "Linea 5", "Linea 8", "Linea 18", "Linea 70", "Linea 80"];
 
             if(linee.includes(linea) && destinazione == "Stazione FS"){
               linea = linea + "/";
