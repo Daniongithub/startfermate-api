@@ -5,6 +5,7 @@ const cors = require('cors');
 
 const app = express();
 const port = 3005;
+const version = "2.1.3";
 
 app.use(cors());
 app.use(express.json());
@@ -29,6 +30,7 @@ app.get('/fermata', async (req, res) => {
             const orario = element.find('.bus-times span').first().text().trim();
             var stato = element.find('.bus-status').text().trim();
             var linea = headerSpan.contents().filter((i, el) => el.type === 'text').text().trim();
+            linea = linea.replace("Linea ", "");
             const destinazione = element.find('.bus-destination').text().trim();
             var mezzo = element.find('.det a').attr('data-vehicle') || '';
 
@@ -46,29 +48,29 @@ app.get('/fermata', async (req, res) => {
 
             //Varianti linee
 
-            if(linea == "Linea 4" && destinazione == "Mirabilandia"){
-              linea = "Linea 4B";
+            if(linea == "4" && destinazione == "Mirabilandia"){
+              linea = "4B";
             }
 
-            if(linea == "Linea 4" && destinazione == "Lido di Dante"){
-              linea = "Linea 4D";
+            if(linea == "4" && destinazione == "Lido di Dante"){
+              linea = "4D";
             }
 
-            if(linea == "Linea 4" && destinazione == "Classe via Liburna"){
-              linea = "Linea 4R";
+            if(linea == "4" && destinazione == "Classe via Liburna"){
+              linea = "4R";
             }
 
-            if(linea == "Linea 4" && destinazione == "Classe Romea Vecchia"){
-              linea = "Linea 4R";
+            if(linea == "4" && destinazione == "Classe Romea Vecchia"){
+              linea = "4R";
             }
 
-            if(linea == "Linea 1" && destinazione == "Borgo Nuovo"){
-              linea = "Linea 1B";
+            if(linea == "1" && destinazione == "Borgo Nuovo"){
+              linea = "1B";
             }
 
             //Linee soppresse a metà
 
-            const linee = ["Linea 1", "Linea 1B", "Linea 3", "Linea 4", "Linea 4B", "Linea 4D", "Linea 5", "Linea 8", "Linea 18", "Linea 70", "Linea 80"];
+            const linee = ["1", "1B", "3", "4", "4B", "4D", "5", "8", "18", "70", "80"];
 
             if(linee.includes(linea) && destinazione == "Stazione FS"){
               linea = linea + "/";
@@ -119,6 +121,11 @@ app.get('/bacino', async (req, res) => {
         res.status(500).json({ error: 'Errore nel contattare il servizio remoto' });
     }
 });
+
+app.get('/versione', async (req, res) => {
+  res.send(version);
+});
+
 app.listen(port, () => {
     console.log(`API attiva su http://localhost:${port}`);
 });
