@@ -5,7 +5,7 @@ const cors = require('cors');
 
 const app = express();
 const port = 3005;
-const version = "2.1.3";
+const version = "2.1.4";
 
 app.use(cors());
 app.use(express.json());
@@ -48,27 +48,35 @@ app.get('/fermata', async (req, res) => {
 
             //Varianti linee
 
+            if(linea == "1" && destinazione == "Borgo Nuovo"){
+              linea = "1B";
+            }
+
             if(linea == "4" && destinazione == "Mirabilandia"){
               linea = "4B";
+            }
+
+            if(linea == "4" && (destinazione == "Classe Cantoniera" || destinazione == "ClasseCantoniera")){
+              linea = "4C";
             }
 
             if(linea == "4" && destinazione == "Lido di Dante"){
               linea = "4D";
             }
 
-            if(linea == "4" && destinazione == "Classe via Liburna"){
+            if(linea == "4" && (destinazione == "Classe via Liburna" || "Classe Romea Vecchia")){
               linea = "4R";
             }
 
-            if(linea == "4" && destinazione == "Classe Romea Vecchia"){
-              linea = "4R";
+            //Linee limitate o soppresse a metà
+
+            if(linea == "8" && destinazione == "Deposito"){
+              linea = "8/";
             }
 
-            if(linea == "1" && destinazione == "Borgo Nuovo"){
-              linea = "1B";
+            if(linea == "3" && destinazione == "via Sant'Alberto"){
+              linea = "3/";
             }
-
-            //Linee soppresse a metà
 
             const linee = ["1", "1B", "3", "4", "4B", "4D", "5", "8", "18", "70", "80"];
 
