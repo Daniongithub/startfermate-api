@@ -5,7 +5,7 @@ const cors = require('cors');
 
 const app = express();
 const port = 3005;
-const version = "2.1.5";
+const version = "2.1.6";
 
 app.use(cors());
 app.use(express.json());
@@ -31,7 +31,7 @@ app.get('/fermata', async (req, res) => {
             var stato = element.find('.bus-status').text().trim();
             var linea = headerSpan.contents().filter((i, el) => el.type === 'text').text().trim();
             linea = linea.replace("Linea ", "");
-            const destinazione = element.find('.bus-destination').text().trim();
+            var destinazione = element.find('.bus-destination').text().trim();
             var mezzo = element.find('.det a').attr('data-vehicle') || '';
 
             //Aggiustamenti
