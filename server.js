@@ -5,7 +5,7 @@ const cors = require('cors');
 
 const app = express();
 const port = 3005;
-const version = "2.1.4";
+const version = "2.1.5";
 
 app.use(cors());
 app.use(express.json());
@@ -34,6 +34,8 @@ app.get('/fermata', async (req, res) => {
             const destinazione = element.find('.bus-destination').text().trim();
             var mezzo = element.find('.det a').attr('data-vehicle') || '';
 
+            //Aggiustamenti
+
             if(mezzo.length == 4){
               mezzo = 3 + mezzo;
             }
@@ -46,6 +48,10 @@ app.get('/fermata', async (req, res) => {
               mezzo = "Non disponibile";
             }
 
+            if(destinazione == "Fornace.Zarattini"){
+              destinazione = "Fornace Zarattini"
+            }
+
             //Varianti linee
 
             if(linea == "1" && destinazione == "Borgo Nuovo"){
@@ -56,7 +62,11 @@ app.get('/fermata', async (req, res) => {
               linea = "4B";
             }
 
-            if(linea == "4" && (destinazione == "Classe Cantoniera" || destinazione == "ClasseCantoniera")){
+            if(linea == "4" && destinazione == "Classe Cantoniera"){
+              linea = "4C";
+            }
+
+            if(linea == "4" && destinazione == "ClasseCantoniera"){
               linea = "4C";
             }
 
@@ -64,7 +74,15 @@ app.get('/fermata', async (req, res) => {
               linea = "4D";
             }
 
-            if(linea == "4" && (destinazione == "Classe via Liburna" || "Classe Romea Vecchia")){
+            if(linea == "4" && destinazione == "Fosso Ghiaia"){
+              linea = "4F";
+            }
+
+            if(linea == "4" && destinazione == "Classe via Liburna"){
+              linea = "4R";
+            }
+
+            if(linea == "4" && destinazione == "Classe Romea Vecchia"){
               linea = "4R";
             }
 
