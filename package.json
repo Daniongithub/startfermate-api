@@ -1,6 +1,6 @@
 {
   "name": "start-fermate-api",
-  "version": "2.1.6",
+  "version": "2.2",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
