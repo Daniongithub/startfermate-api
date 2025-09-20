@@ -5,7 +5,7 @@ const cors = require('cors');
 
 const app = express();
 const port = 3005;
-const version = "2.2";
+const version = "2.2.1";
 
 app.use(cors());
 app.use(express.json());
@@ -52,6 +52,10 @@ app.get('/fermata', async (req, res) => {
               destinazione = "Fornace Zarattini"
             }
 
+            if(linea == "4" && destinazione == "Classe"){
+              destinazione = "Classe Piazza";
+            }
+
             //Varianti linee
 
             if(linea == "1" && destinazione == "Borgo Nuovo"){
@@ -78,6 +82,14 @@ app.get('/fermata', async (req, res) => {
               linea = "4F";
             }
 
+            if(linea == "4" && destinazione == "Fosso Ghiaia-Standiana"){
+              linea = "4F";
+            }
+
+            if(linea == "4" && destinazione == "Savio di Cervia"){
+              linea = "4F";
+            }
+
             if(linea == "4" && destinazione == "Classe via Liburna"){
               linea = "4R";
             }
@@ -88,11 +100,6 @@ app.get('/fermata', async (req, res) => {
 
             if(linea == "4" && destinazione == "R.Vecchia"){
               linea = "4R";
-            }
-
-            if(linea == "4" && destinazione == "Classe"){
-              linea = "4R";
-              destinazione = "Classe Piazza";
             }
 
             //Linee limitate o soppresse a metà
@@ -109,13 +116,21 @@ app.get('/fermata', async (req, res) => {
               linea = "1/";
             }
 
-            const linee = ["1", "1B", "3", "4", "4B", "4D", "5", "8", "18", "70", "80"];
+            if(linea == "1" && destinazione == "Via Antica Milizia"){
+              linea = "1/";
+            }
+
+            const linee = ["1", "1B", "3", "4", "4B", "4C", "4D", "4F", "4R", "5", "8", "18", "70", "80"];
 
             if(linee.includes(linea) && destinazione == "Stazione FS"){
               linea = linea + "/";
             }
 
             if(linee.includes(linea) && destinazione == "STAZIONE FS"){
+              linea = linea + "/";
+            }
+
+            if(linee.includes(linea) && destinazione == "Ravenna Radio Taxi"){
               linea = linea + "/";
             }
 
