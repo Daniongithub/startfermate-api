@@ -5,7 +5,7 @@ const cors = require('cors');
 
 const app = express();
 const port = 3005;
-const version = "2.2.1";
+const version = "2.2.2";
 
 app.use(cors());
 app.use(express.json());
@@ -102,6 +102,10 @@ app.get('/fermata', async (req, res) => {
               linea = "4R";
             }
 
+            if(linea == "4" && destinazione == "Romea Vecchia via del Centurione"){
+              linea = "4R";
+            }
+
             //Linee limitate o soppresse a metà
 
             if(linea == "8" && destinazione == "Deposito"){
@@ -127,6 +131,10 @@ app.get('/fermata', async (req, res) => {
             }
 
             if(linee.includes(linea) && destinazione == "STAZIONE FS"){
+              linea = linea + "/";
+            }
+
+            if(linee.includes(linea) && destinazione == "Ravenna FS"){
               linea = linea + "/";
             }
 
