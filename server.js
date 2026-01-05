@@ -5,7 +5,7 @@ const cors = require('cors');
 
 const app = express();
 const port = 3005;
-const version = "2.2.2";
+const version = "2.2.3";
 
 app.use(cors());
 app.use(express.json());
@@ -54,6 +54,7 @@ app.get('/fermata', async (req, res) => {
 
             if(linea == "4" && destinazione == "Classe"){
               destinazione = "Classe Piazza";
+              linea = "4R";
             }
 
             //Varianti linee
@@ -103,7 +104,7 @@ app.get('/fermata', async (req, res) => {
             }
 
             if(linea == "4" && destinazione == "Romea Vecchia via del Centurione"){
-              linea = "4R";
+              linea = "4C";
             }
 
             //Linee limitate o soppresse a metà
