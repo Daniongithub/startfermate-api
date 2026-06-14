@@ -5,7 +5,7 @@ const cors = require('cors');
 
 const app = express();
 const port = 3005;
-const version = "2.3.1";
+const version = "2.4";
 
 app.use(cors());
 app.use(express.json());
@@ -51,10 +51,22 @@ app.get('/fermata', async (req, res) => {
       if (destinazione == "Fornace.Zarattini") {
         destinazione = "Fornace Zarattini"
       }
-
+      
       if (linea == "4" && destinazione == "Classe") {
         destinazione = "Classe Piazza";
         linea = "4R";
+      }
+
+      //Navetto mare
+
+      if (linea == "Navetto Mare Marina") {
+        linea = "65";
+        destinazione = "Navetto Mare Marina di Ravenna";
+      }
+
+      if (linea == "Navetto Mare Punta") {
+        linea = "66";
+        destinazione = "Navetto Mare Punta Marina";
       }
 
       //Varianti linee

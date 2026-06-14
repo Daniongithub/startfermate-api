@@ -1,6 +1,6 @@
 {
   "name": "start-fermate-api",
-  "version": "2.3.1",
+  "version": "2.4",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
@@ -8,9 +8,9 @@
   "keywords": [],
   "author": "IlDani - Curry141",
   "license": "MIT",
-  "description": "API for a frontend project by the ER-TPL team",
+  "description": "API for a frontend project by the ER-TPL team, wrapper for https://infobus.startromagna.it",
   "dependencies": {
-    "axios": "^1.13.5",
+    "axios": "^1.17.0",
     "cheerio": "^1.2.0",
     "cors": "^2.8.6",
     "express": "^5.2.1",
