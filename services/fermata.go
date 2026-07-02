@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
-	"time"
 
 	"github.com/Daniongithub/startfermate-api/models"
 	"github.com/Daniongithub/startfermate-api/utils"
@@ -12,26 +11,22 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-func GetFermata(param, param2, palina, det string) ([]any, error) {
+func GetFermata(param, param2, palina, det string) (models.FermataResponse, error) {
 
 	url := fmt.Sprintf(
 		"https://infobus.startromagna.it/InfoFermata?param=%s&param2=%s&palina=%s",
 		param, param2, palina,
 	)
 
-	client := &http.Client{
-		Timeout: 8 * time.Second,
-	}
-
-	resp, err := client.Get(url)
+	resp, err := http.Get(url)
 	if err != nil {
-		return nil, err
+		return models.FermataResponse{}, err
 	}
 	defer resp.Body.Close()
 
 	doc, err := goquery.NewDocumentFromReader(resp.Body)
 	if err != nil {
-		return nil, err
+		return models.FermataResponse{}, err
 	}
 
 	var result models.FermataResponse
@@ -49,8 +44,6 @@ func GetFermata(param, param2, palina, det string) ([]any, error) {
 		stato := strings.TrimSpace(el.Find(".bus-status").Text())
 
 		headerSpan := el.Find(".bus-header > span").First()
-
-		// rimuove l'icona material-icons
 		headerSpan.Find(".material-icons").Remove()
 
 		linea := strings.TrimSpace(headerSpan.Text())
@@ -64,15 +57,19 @@ func GetFermata(param, param2, palina, det string) ([]any, error) {
 		}
 
 		if stato == "Non disp" {
-			stato = "N.D."
+			stato = "-"
 		}
 
 		if mezzo == "" {
-			mezzo = "N.D."
+			mezzo = "-"
 		}
 
 		if dest == "Fornace.Zarattini" {
 			dest = "Fornace Zarattini"
+		}
+
+		if dest == "Tibunale" {
+			dest = "Tribunale"
 		}
 
 		var bus models.Bus
@@ -89,17 +86,5 @@ func GetFermata(param, param2, palina, det string) ([]any, error) {
 		}
 	})
 
-	var out []any
-
-	// primo elemento: fermata (come prima)
-	out = append(out, map[string]string{
-		"fermata": result.Fermata,
-	})
-
-	// poi i bus
-	for _, b := range result.Bus {
-		out = append(out, b)
-	}
-
-	return out, nil
+	return result, nil
 }
