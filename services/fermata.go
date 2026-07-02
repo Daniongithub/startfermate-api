@@ -3,6 +3,7 @@ package services
 import (
 	"fmt"
 	"net/http"
+	"regexp"
 	"strings"
 
 	"github.com/Daniongithub/startfermate-api/models"
@@ -41,7 +42,8 @@ func GetFermata(param, param2, palina, det string) (models.FermataResponse, erro
 		isSopp := el.Find(".bus-status.sopp").Length() > 0
 
 		orario := strings.TrimSpace(el.Find(".bus-times span").First().Text())
-		stato := strings.TrimSpace(el.Find(".bus-status").Text())
+		re := regexp.MustCompile(`([+-])\s+`)
+		stato := re.ReplaceAllString(strings.TrimSpace(el.Find(".bus-status").Text()), "$1")
 
 		headerSpan := el.Find(".bus-header > span").First()
 		headerSpan.Find(".material-icons").Remove()
@@ -57,11 +59,11 @@ func GetFermata(param, param2, palina, det string) (models.FermataResponse, erro
 		}
 
 		if stato == "Non disp" {
-			stato = "-"
+			stato = "---"
 		}
 
 		if mezzo == "" {
-			mezzo = "-"
+			mezzo = "---"
 		}
 
 		if dest == "Fornace.Zarattini" {
