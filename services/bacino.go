@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
+	"sync"
 	"time"
 )
 
@@ -18,10 +19,28 @@ type fermataRaw struct {
 	TargetID string `json:"targetID"`
 }
 
+type cacheEntry struct {
+	Data      []fermataRaw
+	ExpiresAt time.Time
+}
+
+var (
+	bacinoCache = make(map[string]cacheEntry)
+	cacheMutex  sync.RWMutex
+)
+
 func GetBacino(selected string) ([]fermataRaw, error) {
 
 	if selected != "ra" && selected != "rn" && selected != "fc" {
 		return nil, errors.New("bacino non valido")
+	}
+
+	cacheMutex.RLock()
+	entry, ok := bacinoCache[selected]
+	cacheMutex.RUnlock()
+
+	if ok && time.Now().Before(entry.ExpiresAt) {
+		return entry.Data, nil
 	}
 
 	body, _ := json.Marshal(bacinoRequest{
@@ -50,6 +69,13 @@ func GetBacino(selected string) ([]fermataRaw, error) {
 	if err := json.NewDecoder(resp.Body).Decode(&wrapper); err != nil {
 		return nil, err
 	}
+
+	cacheMutex.Lock()
+	bacinoCache[selected] = cacheEntry{
+		Data:      wrapper.D,
+		ExpiresAt: time.Now().Add(12 * time.Hour),
+	}
+	cacheMutex.Unlock()
 
 	return wrapper.D, nil
 }

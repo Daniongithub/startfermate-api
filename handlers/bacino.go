@@ -10,7 +10,7 @@ import (
 func Bacino(w http.ResponseWriter, r *http.Request) {
 
 	q := r.URL.Query()
-	selected := q.Get("selectedOption")
+	selected := q.Get("prov")
 
 	data, err := services.GetBacino(selected)
 	if err != nil {
