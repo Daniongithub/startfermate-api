@@ -9,7 +9,7 @@ import (
 	"github.com/Daniongithub/startfermate-api/handlers"
 )
 
-const version = "3.2"
+const version = "3.3"
 
 func main() {
 

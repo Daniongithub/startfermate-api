@@ -34,12 +34,40 @@ var navetto = map[string]struct {
 		linea: "66",
 		dest:  "Navetto Mare Punta Marina",
 	},
+	"Navetto Mare Punta Marina-Campeggi": {
+		linea: "67",
+		dest:  "Navetto Mare Punta M.-Campeggi",
+	},
 }
 
 var ignoredDest = map[string]bool{
 	"RIENTRO DEPOSITO": true,
 	"PRESA SERVIZIO":   true,
 	"FUORI LINEA":      true,
+}
+
+var truncatedLines = map[string]bool{
+	"1":  true,
+	"1B": true,
+	"3":  true,
+	"4":  true,
+	"4B": true,
+	"4C": true,
+	"4D": true,
+	"4F": true,
+	"4R": true,
+	"5":  true,
+	"8":  true,
+	"18": true,
+	"70": true,
+	"80": true,
+}
+
+var truncatedDestinations = map[string]bool{
+	"Stazione FS":        true,
+	"STAZIONE FS":        true,
+	"Ravenna FS":         true,
+	"Ravenna Radio Taxi": true,
 }
 
 func Normalize(bus *models.Bus, linea, dest string) {
@@ -59,6 +87,10 @@ func Normalize(bus *models.Bus, linea, dest string) {
 	}
 
 	bus.Destinazione = dest
+
+	if truncatedLines[bus.Linea] && truncatedDestinations[bus.Destinazione] {
+		bus.Linea += "/"
+	}
 }
 
 func ShouldShow(det string, dest string) bool {
